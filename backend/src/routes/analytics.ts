@@ -4,9 +4,9 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    res.json({ message: 'Analytics endpoint' });
+    return res.json({ message: 'Analytics endpoint' });
   } catch (error) {
-    res.status(500).json({ error: 'Analytics error' });
+    return res.status(500).json({ error: 'Analytics error' });
   }
 });
 

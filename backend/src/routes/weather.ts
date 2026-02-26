@@ -22,10 +22,10 @@ router.get('/', async (req, res) => {
       parseFloat(lon as string)
     );
 
-    res.json(weatherData);
+    return res.json(weatherData);
   } catch (error) {
     logger.error('Weather API error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       error: 'Failed to fetch weather data',
       message: error instanceof Error ? error.message : 'Unknown error'
     });
@@ -50,10 +50,10 @@ router.get('/historical', async (req, res) => {
       new Date(endDate as string)
     );
 
-    res.json(historicalData);
+    return res.json(historicalData);
   } catch (error) {
     logger.error('Historical weather API error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       error: 'Failed to fetch historical weather data',
       message: error instanceof Error ? error.message : 'Unknown error'
     });
@@ -77,10 +77,10 @@ router.get('/forecast', async (req, res) => {
       parseInt(days as string)
     );
 
-    res.json(forecast);
+    return res.json(forecast);
   } catch (error) {
     logger.error('Weather forecast API error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       error: 'Failed to fetch weather forecast',
       message: error instanceof Error ? error.message : 'Unknown error'
     });

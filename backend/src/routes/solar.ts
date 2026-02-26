@@ -21,10 +21,10 @@ router.get('/', async (req, res) => {
       parseFloat(lon as string)
     );
 
-    res.json(solarData);
+    return res.json(solarData);
   } catch (error) {
     logger.error('Solar API error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       error: 'Failed to fetch solar data',
       message: error instanceof Error ? error.message : 'Unknown error'
     });
@@ -48,10 +48,10 @@ router.get('/predictions', async (req, res) => {
       parseInt(days as string)
     );
 
-    res.json(predictions);
+    return res.json(predictions);
   } catch (error) {
     logger.error('Solar predictions API error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       error: 'Failed to generate predictions',
       message: error instanceof Error ? error.message : 'Unknown error'
     });

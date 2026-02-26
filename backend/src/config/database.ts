@@ -14,7 +14,8 @@ export const connectDatabase = async (): Promise<void> => {
     logger.info('✅ Connected to MongoDB');
   } catch (error) {
     logger.error('❌ MongoDB connection error:', error);
-    throw error;
+    logger.warn('⚠️  Server will continue without database connection');
+    // Don't throw error, allow server to start without DB
   }
 };
 
