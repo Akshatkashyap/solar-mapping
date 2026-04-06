@@ -13,8 +13,24 @@ import {
   MapPin,
   Clock
 } from 'lucide-react';
+import { solarSites, type SolarSite } from '../../data/solarLocations';
 
 const WeatherData: React.FC = () => {
+  const regionWeatherProfile: Record<SolarSite['region'], { temperature: string; humidity: string; windSpeed: string; cloudCover: string; condition: string }> = {
+    city: { temperature: '28°C', humidity: '60%', windSpeed: '12 km/h', cloudCover: '25%', condition: 'Urban Clear' },
+    coastal: { temperature: '30°C', humidity: '75%', windSpeed: '15 km/h', cloudCover: '40%', condition: 'Humid Coast' },
+    hill: { temperature: '18°C', humidity: '50%', windSpeed: '9 km/h', cloudCover: '20%', condition: 'Cool & Clear' },
+    desert: { temperature: '34°C', humidity: '30%', windSpeed: '18 km/h', cloudCover: '12%', condition: 'Hot & Sunny' },
+    rural: { temperature: '27°C', humidity: '55%', windSpeed: '11 km/h', cloudCover: '22%', condition: 'Open Skies' }
+  };
+
+  const locationWeatherData = solarSites.map((site) => ({
+    city: site.name,
+    state: site.state,
+    ...regionWeatherProfile[site.region],
+    irradiance: `${site.irradiance} W/m²`
+  }));
+
   const weatherMetrics = [
     {
       icon: Sun,
@@ -125,8 +141,48 @@ const WeatherData: React.FC = () => {
           </div>
           <div className="flex items-center space-x-1">
             <MapPin className="h-4 w-4" />
-            <span>Location: Delhi, India</span>
+            <span>Locations Tracked: {locationWeatherData.length} (Interactive Map Cities)</span>
           </div>
+        </div>
+      </div>
+
+      {/* Location-wise Weather Details */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6 flex items-center">
+          <MapPin className="h-6 w-6 mr-2 text-blue-600" />
+          Location-wise Weather Details
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {locationWeatherData.map((location) => (
+            <div key={location.city} className="bg-white rounded-lg shadow-md p-4 border border-gray-200 hover:shadow-lg transition-shadow">
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <h4 className="font-semibold text-gray-900">{location.city}</h4>
+                  <p className="text-sm text-gray-500">{location.state}</p>
+                </div>
+                <span className="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-700">
+                  {location.condition}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div className="text-gray-600">Temp</div>
+                <div className="font-medium text-gray-900 text-right">{location.temperature}</div>
+
+                <div className="text-gray-600">Humidity</div>
+                <div className="font-medium text-gray-900 text-right">{location.humidity}</div>
+
+                <div className="text-gray-600">Wind</div>
+                <div className="font-medium text-gray-900 text-right">{location.windSpeed}</div>
+
+                <div className="text-gray-600">Cloud Cover</div>
+                <div className="font-medium text-gray-900 text-right">{location.cloudCover}</div>
+
+                <div className="text-gray-600">Irradiance</div>
+                <div className="font-medium text-gray-900 text-right">{location.irradiance}</div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

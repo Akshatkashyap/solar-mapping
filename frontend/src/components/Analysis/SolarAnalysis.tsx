@@ -61,6 +61,132 @@ const SolarAnalysis: React.FC = () => {
     }
   ];
 
+  const tabMenuInfo: Record<string, { title: string; description: string; highlights: string[] }> = {
+    overview: {
+      title: 'Overview Insights',
+      description: 'Quick summary of portfolio performance, trends, and optimization opportunities for the selected period.',
+      highlights: ['Tracks daily KPI movement', 'Summarizes regional performance', 'Highlights priority optimization actions']
+    },
+    irradiance: {
+      title: 'Irradiance Mapping Insights',
+      description: 'Explains solar radiation conditions across locations and supports site suitability decisions.',
+      highlights: ['Compares GHI, DNI, and DHI signals', 'Shows seasonal and regional variation', 'Supports best-month planning']
+    },
+    efficiency: {
+      title: 'Efficiency Insights',
+      description: 'Focuses on conversion efficiency, losses, and practical maintenance actions to improve output.',
+      highlights: ['Identifies temperature and soiling impact', 'Tracks PR and capacity factor', 'Suggests maintenance priorities']
+    },
+    production: {
+      title: 'Production Insights',
+      description: 'Provides generation performance and utilization patterns with financial outcome visibility.',
+      highlights: ['Measures daily and monthly generation', 'Reviews peak-hour utilization', 'Links production to financial outcomes']
+    },
+    data: {
+      title: 'Data Management Insights',
+      description: 'Shows data pipeline reliability, source coverage, and quality assurance controls.',
+      highlights: ['Lists active data source categories', 'Monitors data completeness and anomalies', 'Supports traceable validation workflow']
+    },
+    settings: {
+      title: 'Analysis Settings Insights',
+      description: 'Defines analysis scope, comparison logic, and report export behavior for stakeholders.',
+      highlights: ['Configures period and boundaries', 'Controls calculation and benchmark rules', 'Supports repeatable report exports']
+    }
+  };
+
+  const tabMenuDetails: Record<string, { icon: any; color: string; features: string[]; actionItems: string[] }> = {
+    overview: {
+      icon: Eye,
+      color: 'text-blue-600',
+      features: [
+        'Real-time performance dashboard showing KPI cards',
+        'Historical trend analysis over 30 days',
+        'Optimization opportunities ranked by impact',
+        'Regional performance rankings'
+      ],
+      actionItems: [
+        'Monitor daily trends for anomalies',
+        'Review top 3 optimization recommendations',
+        'Compare across regions monthly'
+      ]
+    },
+    irradiance: {
+      icon: Sun,
+      color: 'text-yellow-600',
+      features: [
+        'Global Horizontal Irradiance (GHI) measurements',
+        'Direct Normal Irradiance (DNI) tracking',
+        'Diffuse Horizontal Irradiance (DHI) analysis',
+        'Peak sun hours estimation by location'
+      ],
+      actionItems: [
+        'Identify best-performing locations',
+        'Plan seasonal maintenance windows',
+        'Validate site selection decisions'
+      ]
+    },
+    efficiency: {
+      icon: Activity,
+      color: 'text-green-600',
+      features: [
+        'Panel efficiency performance ratio tracking',
+        'Temperature coefficient impact analysis',
+        'Shading loss quantification',
+        'System degradation rate monitoring'
+      ],
+      actionItems: [
+        'Schedule quarterly maintenance checks',
+        'Optimize panel angles based on data',
+        'Address degradation trends early'
+      ]
+    },
+    production: {
+      icon: Zap,
+      color: 'text-blue-600',
+      features: [
+        'Daily and monthly energy generation reports',
+        'Peak production hour analysis',
+        'Load matching and grid interaction metrics',
+        'Financial performance calculations'
+      ],
+      actionItems: [
+        'Forecast monthly generation revenue',
+        'Optimize dispatch timing',
+        'Track ROI against baselines'
+      ]
+    },
+    data: {
+      icon: Database,
+      color: 'text-purple-600',
+      features: [
+        'Satellite imagery data integration',
+        'Ground weather station networks (50+ cities)',
+        'IoT sensor real-time monitoring',
+        'Quality assurance and anomaly detection'
+      ],
+      actionItems: [
+        'Monitor data freshness and gaps',
+        'Validate sensor calibration',
+        'Audit data source reliability'
+      ]
+    },
+    settings: {
+      icon: Settings,
+      color: 'text-gray-600',
+      features: [
+        'Configurable time periods and boundaries',
+        'Custom calculation methodology selection',
+        'Benchmark and comparison rules',
+        'Multi-format export options (PDF, CSV, API)'
+      ],
+      actionItems: [
+        'Define analysis parameters per stakeholder',
+        'Schedule automated report generation',
+        'Set up API data access for integrations'
+      ]
+    }
+  };
+
   const analysisMetrics = [
     {
       icon: Sun,
@@ -206,6 +332,53 @@ const SolarAnalysis: React.FC = () => {
             );
           })}
         </nav>
+      </div>
+
+      {/* Active Menu Info */}
+      <div className="bg-orange-50 rounded-lg border border-orange-200 p-4">
+        <h3 className="text-lg font-semibold text-orange-800 mb-1">{tabMenuInfo[activeTab].title}</h3>
+        <p className="text-sm text-orange-700 mb-3">{tabMenuInfo[activeTab].description}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          {tabMenuInfo[activeTab].highlights.map((point) => (
+            <div key={point} className="text-sm text-orange-700 bg-white border border-orange-100 rounded-md px-3 py-2">
+              {point}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Enhanced Tab Details */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-lg border border-gray-200 p-5 shadow-sm">
+          <div className="flex items-center space-x-3 mb-4">
+            {React.createElement(tabMenuDetails[activeTab].icon, {
+              className: `h-8 w-8 ${tabMenuDetails[activeTab].color}`
+            })}
+            <h4 className="text-lg font-semibold text-gray-800">Key Features</h4>
+          </div>
+          <ul className="space-y-2">
+            {tabMenuDetails[activeTab].features.map((feature, idx) => (
+              <li key={idx} className="flex items-start space-x-3">
+                <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${tabMenuDetails[activeTab].color}`}></div>
+                <span className="text-sm text-gray-700">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="bg-white rounded-lg border border-gray-200 p-5 shadow-sm">
+          <div className="flex items-center space-x-3 mb-4">
+            <Target className="h-8 w-8 text-orange-600" />
+            <h4 className="text-lg font-semibold text-gray-800">Recommended Actions</h4>
+          </div>
+          <ul className="space-y-2">
+            {tabMenuDetails[activeTab].actionItems.map((action, idx) => (
+              <li key={idx} className="flex items-start space-x-3">
+                <div className="w-2 h-2 rounded-full mt-1.5 bg-orange-500 flex-shrink-0"></div>
+                <span className="text-sm text-gray-700">{action}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       {/* Tab Content */}
